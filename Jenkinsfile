@@ -1,31 +1,34 @@
 pipeline {
     agent any
+    
     stages {
-      steps {
-        echo 'Building pipeline'
-        sh 'touch build-artifact.txt'
-      }
+        stage('Build') {
+            steps {
+                echo 'Building...'
+                sh 'touch build-artifact.txt'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                sh 'ls -la'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
+                sh 'pwd'
+                sh 'mv build-artifact.txt deployment/'
+            }
+        }
     }
-
-    stage('Test') {
-      steps {
-        echo 'Testing part of the pipeline'
-        sh 'ls -la'
-      }
+    
+    post {
+        always {
+            archiveArtifacts artifacts: '**/build-artifact.txt', allowEmptyArchive: true
+        }
     }
-
-    stage('Deploy') {
-      steps {
-        echo 'Deploying part of the pipeline'
-        sh 'pwd'
-        sh 'mv build-artifact.txt deploymeny/'
-      }
-    }
-
-post {
-  always {
-    archiveArtifacts artifacts: '**/build-artifact.txt', allowEmptyArchive: true
-  }
-}
 }
 
