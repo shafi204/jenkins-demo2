@@ -20,7 +20,7 @@ pipeline {
             steps {
                 echo 'Deploying...'
                 sh 'pwd'
-                sh 'mv build-artifact.txt deployment/'
+        
             }
         }
     }
